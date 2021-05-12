@@ -1,27 +1,22 @@
 package model
 
+import kotlin.properties.Delegates
 
-class BufferedCell(private val controller: BufferController, initial: Boolean = false) {
 
-    private val buffer = BooleanArray(controller.layers)
+class BufferedCell(initial: Boolean = false) {
 
-    init {
-        buffer[controller.readLayer] = initial
+    var value: Boolean by Delegates.observable(initial) { _, oldValue, newValue ->
+        onChange?.invoke(oldValue, newValue)
     }
+    var buffer: Boolean = false
 
-    var value: Boolean
-    get() = buffer[controller.readLayer]
-    set(value) {
-        buffer[controller.readLayer] = value
-    }
+    var onChange: ((oldValue: Boolean, newValue: Boolean) -> Unit)? = null
 
-    var nextValue : Boolean
-    get() = buffer[controller.writeLayer]
-    set(value) {buffer[controller.writeLayer] = value}
+    fun invertValue(){ value = !value }
 
-    override fun toString(): String {
-        //return "${if(buffer[controller.readLayer]) "1" else "0"}[${if(buffer[controller.writeLayer]) "1" else "0"}]"
-        return if(buffer[controller.readLayer]) "1" else "0"
+    fun swapBuffer() {
+        if (buffer != value)
+            value = buffer
     }
 
 }

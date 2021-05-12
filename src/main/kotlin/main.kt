@@ -1,12 +1,10 @@
-import model.BufferController
-import model.BufferedCell
-import model.GameSpace
 import tornadofx.App
 import tornadofx.launch
-import view.MenuView
+import view.GameStyle
+import view.GameView
 
-class GOLapp: App(MenuView::class)
+class GOLapp: App(GameView::class, GameStyle::class)
 
 fun main() {
-    launch<GOLapp>();
+launch<GOLapp>()
 }
