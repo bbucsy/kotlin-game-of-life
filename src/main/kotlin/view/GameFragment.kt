@@ -1,11 +1,10 @@
 package view
 
-import javafx.scene.paint.Color
-import model.GameSpace
+import model.GameModel
 import tornadofx.*
 
 class GameFragment() : Fragment() {
-    val model: GameSpace by param()
+    val model: GameModel by param()
 
     override val root = gridpane {
 

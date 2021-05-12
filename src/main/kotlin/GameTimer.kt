@@ -1,13 +1,12 @@
 import javafx.animation.AnimationTimer
-import model.GameSpace
+import model.GameModel
 import kotlin.properties.Delegates
 
-class GameTimer(val model: List<GameSpace>) : AnimationTimer() {
+class GameTimer(val model: List<GameModel>) : AnimationTimer() {
     private var lastUpdate: Long = 0
     private var ellapsed: Double = 0.0
 
     var tick: Double by Delegates.vetoable(0.5) { _, _, newValue ->
-        println("$newValue")
         (newValue in 0.1..3.0)
     }
 
