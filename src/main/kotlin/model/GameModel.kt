@@ -6,7 +6,7 @@ import java.io.File
 import java.io.IOException
 
 
-class GameModel(private val n: Int = 50, private val m: Int = 50) {
+class GameModel(private val n: Int = 50, private val m: Int = 50, initializer: (n: Int, m: Int) -> Boolean = {_,_ -> false}) {
 
     companion object {
         val directions = listOf(
@@ -16,7 +16,7 @@ class GameModel(private val n: Int = 50, private val m: Int = 50) {
         )
     }
 
-    val space: Matrix<BufferedCell> = Matrix(n, m) { _, _ -> BufferedCell() }
+    val space: Matrix<BufferedCell> = Matrix(n, m) { n, m -> BufferedCell(initializer(n,m)) }
 
     fun update() {
         for (i in 0 until n) {

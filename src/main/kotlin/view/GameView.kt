@@ -4,6 +4,7 @@ import GameController
 import javafx.geometry.Orientation
 import javafx.stage.FileChooser
 import tornadofx.*
+import java.lang.Exception
 
 class GameView : View("Game of Life") {
     private val controller: GameController by inject()
@@ -14,21 +15,29 @@ class GameView : View("Game of Life") {
             separator(Orientation.VERTICAL)
         }
 
-        top = menubar{
-            menu("File"){
-                item("Open"){
+        top = menubar {
+            menu("File") {
+                item("Open") {
                     action {
-                        val jsonExtensionFilter = FileChooser.ExtensionFilter("JSON","*.json")
-                        val path = chooseFile("Choose JSON to load", arrayOf(jsonExtensionFilter))
-                        controller.stopSimulation()
-                        controller.load(path.first().absolutePath)
+                        try{
+                            val jsonExtensionFilter = FileChooser.ExtensionFilter("JSON", "*.json")
+                            val path = chooseFile("Choose JSON to load", arrayOf(jsonExtensionFilter))
+                            controller.stopSimulation()
+                            controller.load(path.first())
+                        }catch (e:Exception){
+                            println("Could not load file")
+                        }
                     }
                 }
                 item("Save") {
                     action {
-                        val jsonExtensionFilter = FileChooser.ExtensionFilter("JSON","*.json")
-                        val path = chooseFile("Save state", arrayOf(jsonExtensionFilter),null, FileChooserMode.Save)
-                        controller.save(path.first().absolutePath)
+                        try {
+                            val jsonExtensionFilter = FileChooser.ExtensionFilter("JSON", "*.json")
+                            val path = chooseFile("Save state", arrayOf(jsonExtensionFilter), null, FileChooserMode.Save)
+                            controller.save(path.first())
+                        }catch (e:Exception){
+                            println("Could not save file")
+                        }
                     }
                 }
             }
@@ -52,8 +61,11 @@ class GameView : View("Game of Life") {
             button("speed++") {
                 action { controller.speedUp() }
             }
-            button ("speed--"){
-                action { controller.speedDown()  }
+            button("speed--") {
+                action { controller.speedDown() }
+            }
+            button("clear") {
+                action { controller.clear() }
             }
         }
     }
