@@ -22,7 +22,7 @@ class GameView : View("Game of Life") {
         // make a separator line between the two game spaces
         center { separator(Orientation.VERTICAL) }
 
-        // make the menubar to save/load gamestates
+        // make the menubar to save/load game states
         top = menubar {
             menu("File") {
                 item("Open") {
@@ -66,6 +66,7 @@ class GameView : View("Game of Life") {
             button("Speed++") { action { controller.speedUp() } }
             button("Speed--") { action { controller.speedDown() } }
             button("Clear") { action { controller.clear() } }
+            button("Random") { action { controller.random() } }
         }
     }
 

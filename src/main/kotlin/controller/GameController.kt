@@ -54,7 +54,7 @@ class GameController : Controller() {
         modelA = GameModel(gameSize, gameSize) { i, j -> rnd[i][j] }
         modelB = GameModel(gameSize, gameSize) { i, j -> rnd[i][j] }
 
-        // create the timer, and give it the list of updateabel models
+        // create the timer, and give it the list of updatable models
         timer = GameTimer(listOf(modelA, modelB))
     }
 
@@ -123,6 +123,20 @@ class GameController : Controller() {
         for (i in 0 until modelB.space.size) {
             modelB.space[i].value = false
         }
+    }
+
+    /**
+     * Sets the two models to exactly the same random state
+     */
+    fun random(){
+        stopSimulation()
+        // create random state
+        val rnd = List(gameSize* gameSize){
+            Random.nextBoolean()
+        }
+        // load models with rand values
+        modelA.load(rnd)
+        modelB.load(rnd)
     }
 
 }
