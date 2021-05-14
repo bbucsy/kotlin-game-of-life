@@ -1,6 +1,6 @@
 package view
 
-import GameController
+import controller.GameController
 import javafx.geometry.Orientation
 import javafx.stage.FileChooser
 import tornadofx.*
@@ -11,20 +11,19 @@ class GameView : View("Game of Life") {
 
 
     override val root = borderpane {
-        center {
-            separator(Orientation.VERTICAL)
-        }
+
+        center { separator(Orientation.VERTICAL) }
 
         top = menubar {
             menu("File") {
                 item("Open") {
                     action {
-                        try{
+                        try {
                             val jsonExtensionFilter = FileChooser.ExtensionFilter("JSON", "*.json")
                             val path = chooseFile("Choose JSON to load", arrayOf(jsonExtensionFilter))
                             controller.stopSimulation()
                             controller.load(path.first())
-                        }catch (e:Exception){
+                        } catch (e: Exception) {
                             println("Could not load file")
                         }
                     }
@@ -33,9 +32,10 @@ class GameView : View("Game of Life") {
                     action {
                         try {
                             val jsonExtensionFilter = FileChooser.ExtensionFilter("JSON", "*.json")
-                            val path = chooseFile("Save state", arrayOf(jsonExtensionFilter), null, FileChooserMode.Save)
+                            val path =
+                                chooseFile("Save state", arrayOf(jsonExtensionFilter), null, FileChooserMode.Save)
                             controller.save(path.first())
-                        }catch (e:Exception){
+                        } catch (e: Exception) {
                             println("Could not save file")
                         }
                     }
@@ -43,30 +43,17 @@ class GameView : View("Game of Life") {
             }
         }
 
-        right = stackpane {
-            this += find<GameFragment>(mapOf(GameFragment::model to controller.modelA))
-        }
+        right = stackpane { this += find<GameSpaceView>(mapOf(GameSpaceView::model to controller.modelA)) }
 
-        left = stackpane {
-            this += find<GameFragment>(mapOf(GameFragment::model to controller.modelB))
-        }
+        left = stackpane { this += find<GameSpaceView>(mapOf(GameSpaceView::model to controller.modelB)) }
 
-        bottom = flowpane {
-            button("start") {
-                action { controller.startSimulation() }
-            }
-            button("stop") {
-                action { controller.stopSimulation() }
-            }
-            button("speed++") {
-                action { controller.speedUp() }
-            }
-            button("speed--") {
-                action { controller.speedDown() }
-            }
-            button("clear") {
-                action { controller.clear() }
-            }
+        bottom = hbox {
+            spacing = 10.0
+            button("Start") { action { controller.startSimulation() } }
+            button("Stop") { action { controller.stopSimulation() } }
+            button("Speed++") { action { controller.speedUp() } }
+            button("Speed--") { action { controller.speedDown() } }
+            button("Clear") { action { controller.clear() } }
         }
     }
 

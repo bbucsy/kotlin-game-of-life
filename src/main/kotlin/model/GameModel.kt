@@ -1,12 +1,6 @@
 package model
 
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import java.io.File
-import java.io.IOException
-
-
-class GameModel(private val n: Int = 50, private val m: Int = 50, initializer: (n: Int, m: Int) -> Boolean = {_,_ -> false}) {
+class GameModel(val n: Int, val m: Int, initializer: (n: Int, m: Int) -> Boolean = { _, _ -> false }) {
 
     companion object {
         val directions = listOf(
@@ -16,7 +10,7 @@ class GameModel(private val n: Int = 50, private val m: Int = 50, initializer: (
         )
     }
 
-    val space: Matrix<BufferedCell> = Matrix(n, m) { n, m -> BufferedCell(initializer(n,m)) }
+    val space: Matrix<BufferedCell> = Matrix(n, m) { n, m -> BufferedCell(initializer(n, m)) }
 
     fun update() {
         for (i in 0 until n) {
@@ -45,17 +39,16 @@ class GameModel(private val n: Int = 50, private val m: Int = 50, initializer: (
 
     }
 
-    fun load(l:List<Boolean> ) {
-        if (l.size != space.size)
-            throw Exception("Wrong number of data to load")
+    fun load(l: List<Boolean>) {
+        require(l.size == space.size) { "List must be equal to the number of cells per model" }
 
-        for(i in 0 until space.size)
+        for (i in 0 until space.size)
             space[i].value = l[i]
     }
 
-    fun save() : List<Boolean>{
-        return List(space.size){
-            i -> space[i].value
+    fun save(): List<Boolean> {
+        return List(space.size) { i ->
+            space[i].value
         }
     }
 }

@@ -7,7 +7,7 @@ class Matrix<T : Any>(val n: Int, val m: Int, init: (i: Int, j: Int) -> T) {
         List(m) { j ->
             init(i, j)
         }
-    };
+    }
 
     val size: Int by lazy { n * m }
     operator fun get(i: Int, j: Int): T = matrix[i][j]

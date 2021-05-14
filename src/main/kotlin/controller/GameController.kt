@@ -1,3 +1,5 @@
+package controller
+
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -10,7 +12,7 @@ class GameController : Controller() {
 
     companion object {
         const val speedIncrement = 0.1
-        const val gameSize = 50;
+        const val gameSize = 50
     }
 
     val modelA: GameModel
@@ -29,13 +31,9 @@ class GameController : Controller() {
     }
 
 
-    fun startSimulation() {
-        timer.start()
-    }
+    fun startSimulation() = timer.start()
 
-    fun stopSimulation() {
-        timer.stop()
-    }
+    fun stopSimulation() = timer.stop()
 
     fun speedUp() {
         timer.tick -= speedIncrement
@@ -46,7 +44,7 @@ class GameController : Controller() {
     }
 
     fun save(file: File) = file.writeText(
-        Json.encodeToString(listOf<List<Boolean>>(modelA.save(), modelB.save()))
+        Json.encodeToString(listOf(modelA.save(), modelB.save()))
     )
 
 
@@ -60,7 +58,7 @@ class GameController : Controller() {
     }
 
     fun clear() {
-        stopSimulation();
+        stopSimulation()
         for (i in 0 until modelA.space.size) {
             modelA.space[i].value = false
         }
